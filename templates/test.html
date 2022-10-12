@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>T5 ParaPhrasing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" media="screen">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+      .container {
+        max-width: 1000px;
+      }
+      
+      .highlightRed {
+        background-color: #00FFFF; 
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="row-sm-5 row-sm-offset-1">
+          <h4>Enter a topic for Article</h4>
+          <form method='POST' name="new_form" id="Newquestion_Form">
+            <input type="text" name="question" class="form-control" id="new_form" placeholder="Enter a question" style="max-width: 300px;">
+            <br>
+            <button type="submit" class="btn btn-default NewParaPhrase">Article genrate</button>
+          </form>
+          <br>
+      </div>
+
+
+      <div class="row-sm-5 row-sm-offset-1 get_paraphrases">
+      </div>
+
+    </div>
+
+  <script>
+    let question = $('#new_form').val();
+    var count = 1
+
+    $(document).on("click", "#Newquestion_Form .NewParaPhrase", function (postData){
+        $(".get_paraphrases").empty();
+        $(".get_paraphrases_pytorchlight").empty();
+        $.ajax({
+            data: {
+                question: $('#new_form').val(),
+            },
+            type: 'POST',
+            url: '/' ,
+            success: function(response) {
+              for ( x of response) {
+                if ( x != $('#new_form').val()){
+                    str = `<h4>Article = ${ x }</h4>`;
+                    $(".get_paraphrases").append(str);
+                }
+              }
+            }
+        });
+        postData.preventDefault();
+    });
+
+  </script>
+
+  </body>
+</html>
